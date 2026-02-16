@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per Te</title>
+    <style>
+        /* Sfondo nero e reset */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            font-family: monospace;
+        }
+
+        .heart-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+
+        /* Stile per ogni singola scritta "ti amo" */
+        .ti-amo {
+            position: absolute;
+            color: #ff80ab; /* Rosa luminoso */
+            font-size: 14px;
+            text-transform: lowercase;
+            white-space: nowrap;
+        }
+
+        /* Animazione battito */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="heart-container" id="heart">
+        </div>
+
+    <script>
+        const container = document.getElementById('heart');
+        const text = "ti_amo";
+        const totalPoints = 60; // Numero di scritte che formano il perimetro
+
+        // Equazione parametrica del cuore
+        for (let i = 0; i < totalPoints; i++) {
+            const angle = (i / totalPoints) * 2 * Math.PI;
+            
+            // Formula matematica per la sagoma del cuore
+            // x = 16 sin^3(t)
+            // y = 13 cos(t) - 5 cos(2t) - 2 cos(3t) - cos(4t)
+            const x = 16 * Math.pow(Math.sin(angle), 3);
+            const y = -(13 * Math.cos(angle) - 5 * Math.cos(2 * angle) - 2 * Math.cos(3 * angle) - Math.cos(4 * angle));
+
+            const span = document.createElement('span');
+            span.classList.add('ti-amo');
+            span.innerText = text;
+
+            // Posizionamento e scala dei punti
+            const posX = x * 15 + 250; 
+            const posY = y * 15 + 250;
+
+            span.style.left = posX + 'px';
+            span.style.top = posY + 'px';
+
+            // Leggera rotazione per seguire la linea del cuore
+            span.style.transform = `rotate(${angle}rad)`;
+
+            container.appendChild(span);
+        }
+    </script>
+</body>
+</html>
